@@ -38,10 +38,6 @@ Because ASKA loads a full world and character model in the main menu, I could no
 2. Drop the compiled `MaoBouldersBegone.dll` into `BepInEx/plugins`  
 3. Launch the game and enjoy a clutter-free map!
 
-## Source Code
-
-Coming soon! (Will be uploaded to GitHub when I'm ready to share.)
-
 ## License
 
 Licensed under [Creative Commons Attribution 4.0 International](https://creativecommons.org/licenses/by/4.0/).  
