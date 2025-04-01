@@ -1,0 +1,27 @@
+# Ignore build artifacts
+bin/
+obj/
+*.dll
+*.exe
+
+# Ignore user-specific files
+*.user
+*.suo
+
+# Ignore logs and caches
+*.log
+*.tmp
+*.cache
+
+# Ignore VSCode/JetBrains/etc settings
+.vscode/
+.idea/
+.vs/
+
+# Ignore Unity/BepInEx specific
+BepInEx/config/
+BepInEx/plugins/
+
+# OS-specific stuff
+.DS_Store
+Thumbs.db
