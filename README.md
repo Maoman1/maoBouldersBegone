@@ -34,9 +34,14 @@ Because ASKA loads a full world and character model in the main menu, I could no
 
 ## Installation
 
-1. Install BepInEx 6 into your Aska directory  
-2. Drop the compiled `MaoBouldersBegone.dll` into `BepInEx/plugins`  
-3. Launch the game and enjoy a clutter-free map!
+1. Go to https://builds.bepinex.dev/projects/bepinex_be
+2. Download the **BepInEx Unity (IL2CPP)** file that matches your OC. **It MUST be the IL2CPP version, NOT Mono.**
+3. Extract the BepInEx .zip into your main ASKA directory (where ASKA.exe is)
+4. Run the game once to generate BepInEx files
+5. Extract maoBouldersBegone.zip into the BepInEx\plugins folder
+6. Launch the game
+7. ??????
+8. Profit!
 
 ## License
 
