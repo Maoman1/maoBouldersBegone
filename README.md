@@ -1,4 +1,4 @@
-# MaoBouldersBegone
+# Boulders Begone
 
 **A BepInEx mod for Aska**  
 Removes all those pointless decorative boulders that get in the way of building. Because you're a Viking, not a landscaper.
