@@ -27,7 +27,7 @@ Because ASKA loads a full world and character model in the main menu, I could no
 
 ## Planned Features
 
-- Customize timer activation delay and activation key (easy)
+- Customize timer activation delay and activation key (~~easy~~ not as easy as I thought)
 - Automatically detect length of time from load game to first F6 press and save that as the timer for the future (medium)
 - Possibly find a better way to detect loading into the world (hard)
 
