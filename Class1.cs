@@ -71,6 +71,22 @@ namespace maoBouldersBegone
             }
         }
 
+        private bool IsRealBoulder(string name)
+        {
+            // Exclude false positives first
+            if (name.ToLowerInvariant().Contains("crockpot") || name.ToLowerInvariant().Contains("campfire") || name.ToLowerInvariant().Contains("crock"))
+                return false;
+
+            // Match only known terrain rock types
+            return
+                name.ToLowerInvariant().Contains("rock_") ||
+                name.ToLowerInvariant().Contains("rockforest") ||
+                name.ToLowerInvariant().Contains("rockshoreline") ||
+                name.ToLowerInvariant().Contains("rockhighlands") ||
+                name.ToLowerInvariant().Contains("rock5") ||
+                name.ToLowerInvariant().Contains("navcollider_rock") ||
+                name.ToLowerInvariant().Contains("cave_rock");
+        }
 
         private void RunBoulderPurge()
         {
@@ -81,9 +97,12 @@ namespace maoBouldersBegone
 
             foreach (var obj in objects)
             {
-                var name = obj.name?.ToLowerInvariant();
-                if (name != null && (name.Contains("rock") || name.Contains("boulder")))
+
+                if (IsRealBoulder(obj.name))
                 {
+                    //log what was found and deleted
+                    //Plugin.Log.LogInfo($"[RockScan] Found: {obj.name}");
+                    
                     obj.SetActive(false);
                     count++;
                 }
