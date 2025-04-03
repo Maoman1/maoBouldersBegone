@@ -6,6 +6,7 @@ Removes all those pointless decorative boulders that get in the way of building.
 ## DISCLAIMER
 
 This mod is in no way officially endorsed by the developers. You are downloading and using this mod with the understanding that you are modifying the game outside of what the devs intended, and that this may result in unexpected behavrior, potentially even game breaking bugs.
+**If you encounter a bug while this is the only mod active, and it goes away after disabling this mod, please report it to ME, not to the Devs. Never bother the developers with Modding issues.**
 
 ## Features
 
@@ -55,4 +56,4 @@ Licensed under [Creative Commons Attribution 4.0 International](https://creative
 ---
 
 Have fun!
-— Maoman 
+â€” Maoman 
