@@ -16,7 +16,7 @@ namespace maoBouldersBegone
         public override void Load()
         {
             Log = base.Log;
-            Log.LogInfo("[Boulders Begone] Plugin loaded. Press F6 in-world to smite terrain rocks.");
+            Log.LogInfo("[Boulders Begone] Plugin loaded.");
 
             ClassInjector.RegisterTypeInIl2Cpp<BoulderNuker>();
 
@@ -38,27 +38,25 @@ namespace maoBouldersBegone
 
         void Update()
         {
-            // Wait until cursor is locked before starting the timer
             if (!timerStarted && Cursor.lockState == CursorLockMode.Locked)
             {
                 timerStarted = true;
-                timeSinceLock = 0f; // reset in case it flickered earlier
-                Plugin.Log.LogInfo("[Boulders Begone] Cursor lock detected. Starting delay countdown.");
+                timeSinceLock = 0f;
             }
 
             if (timerStarted && !inWorld)
             {
                 timeSinceLock += UnityEngine.Time.deltaTime;
 
-                if (timeSinceLock >= 10f)
+                if (timeSinceLock >= 12f)
                 {
                     Vector2 currentMouse = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
 
                     if (currentMouse != Vector2.zero && currentMouse != lastMouse)
                     {
                         inWorld = true;
-                        Plugin.Log.LogInfo("[Boulders Begone] In-world confirmed after lock + delay + movement.");
                         RunBoulderPurge();
+                        RunColliderPurge();
                     }
 
                     lastMouse = currentMouse;
@@ -69,46 +67,69 @@ namespace maoBouldersBegone
             {
                 RunBoulderPurge();
             }
+
+            if (Input.GetKeyDown(KeyCode.F7))
+            {
+                RunColliderPurge();
+            }
+        }
+
+        private void RunColliderPurge()
+        {
+            int count = 0;
+            var colliders = UnityEngine.Object.FindObjectsOfType<UnityEngine.Collider>();
+
+            foreach (var col in colliders)
+            {
+                var obj = col.gameObject;
+                string name = obj.name.ToLowerInvariant();
+
+                if (name.Contains("rock") || name.Contains("boulder") || name.Contains("static"))
+                {
+                    UnityEngine.Object.Destroy(obj);
+                    count++;
+                }
+            }
+
+            Plugin.Log.LogInfo($"[Boulders Begone] {count} standalone colliders destroyed.");
         }
 
         private bool IsRealBoulder(string name)
         {
-            // Exclude false positives first
-            if (name.ToLowerInvariant().Contains("crockpot") || name.ToLowerInvariant().Contains("campfire") || name.ToLowerInvariant().Contains("crock"))
+            string lower = name.ToLowerInvariant();
+            if (lower.Contains("crockpot") || lower.Contains("campfire") || lower.Contains("crock"))
                 return false;
 
-            // Match only known terrain rock types
             return
-                name.ToLowerInvariant().Contains("rock_") ||
-                name.ToLowerInvariant().Contains("rockforest") ||
-                name.ToLowerInvariant().Contains("rockshoreline") ||
-                name.ToLowerInvariant().Contains("rockhighlands") ||
-                name.ToLowerInvariant().Contains("rock5") ||
-                name.ToLowerInvariant().Contains("navcollider_rock") ||
-                name.ToLowerInvariant().Contains("cave_rock");
+                lower.Contains("rock_") ||
+                lower.Contains("rockforest") ||
+                lower.Contains("rockshoreline") ||
+                lower.Contains("rockhighlands") ||
+                lower.Contains("rock5") ||
+                lower.Contains("navcollider_rock") ||
+                lower.Contains("cave_rock");
         }
 
         private void RunBoulderPurge()
         {
-            Plugin.Log.LogInfo("[Boulders Begone] Purging terrain rocks...");
-
             int count = 0;
             var objects = UnityEngine.Object.FindObjectsOfType<UnityEngine.GameObject>();
 
             foreach (var obj in objects)
             {
-
                 if (IsRealBoulder(obj.name))
                 {
-                    //log what was found and deleted
-                    //Plugin.Log.LogInfo($"[RockScan] Found: {obj.name}");
-                    
-                    obj.SetActive(false);
+                    obj.transform.position += new UnityEngine.Vector3(0, -1000f, 0);
+
+                    var renderers = obj.GetComponentsInChildren<UnityEngine.Renderer>(true);
+                    foreach (var r in renderers)
+                        r.enabled = false;
+
                     count++;
                 }
             }
 
-            Plugin.Log.LogInfo($"[Boulders Begone] Disabled {count} terrain objects.");
+            Plugin.Log.LogInfo($"[Boulders Begone] {count} rocks banished to the void.");
         }
     }
 }
