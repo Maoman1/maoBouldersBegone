@@ -8,7 +8,7 @@ using Object = UnityEngine.Object;
 
 namespace maoBouldersBegone
 {
-    [BepInPlugin("mao.bouldersbegone", "Boulders Begone", "1.0.0")]
+    [BepInPlugin("mao.bouldersbegone", "Boulders Begone", "1.3")]
     public class Plugin : BasePlugin
     {
         public static ManualLogSource Log;
@@ -30,7 +30,7 @@ namespace maoBouldersBegone
     public class BoulderNuker : MonoBehaviour
     {
         public BoulderNuker(System.IntPtr ptr) : base(ptr) { }
-
+        private float colliderCheckTimer = 0f;
         bool inWorld = false;
         bool timerStarted = false;
         float timeSinceLock = 0f;
@@ -43,7 +43,12 @@ namespace maoBouldersBegone
                 timerStarted = true;
                 timeSinceLock = 0f;
             }
-
+            colliderCheckTimer += Time.deltaTime;
+            if (colliderCheckTimer >= 3f)
+            {
+                colliderCheckTimer = 0f;
+                RunColliderPurge();
+            }
             if (timerStarted && !inWorld)
             {
                 timeSinceLock += UnityEngine.Time.deltaTime;
@@ -72,6 +77,13 @@ namespace maoBouldersBegone
             {
                 RunColliderPurge();
             }
+
+            if (Input.GetKeyDown(KeyCode.F8))
+            {
+                RunBoulderPurge();
+                RunColliderPurge();
+            }
+
         }
 
         private void RunColliderPurge()
@@ -86,12 +98,13 @@ namespace maoBouldersBegone
 
                 if (name.Contains("rock") || name.Contains("boulder") || name.Contains("static"))
                 {
+                    //Debug.Log($"[BouldersBegone] Removed collider: {obj.name}");
                     UnityEngine.Object.Destroy(obj);
                     count++;
                 }
             }
 
-            Plugin.Log.LogInfo($"[Boulders Begone] {count} standalone colliders destroyed.");
+            //lugin.Log.LogInfo($"[Boulders Begone] {count} standalone colliders destroyed.");
         }
 
         private bool IsRealBoulder(string name)
@@ -129,7 +142,7 @@ namespace maoBouldersBegone
                 }
             }
 
-            Plugin.Log.LogInfo($"[Boulders Begone] {count} rocks banished to the void.");
+            //Plugin.Log.LogInfo($"[Boulders Begone] {count} rocks banished to the void.");
         }
     }
 }
