@@ -14,7 +14,7 @@ This mod is in no way officially endorsed by the developers. You are downloading
 ## Features
 
 - Automatically deletes decorative boulders across the entire explored map upon loading into the world
-- Additionally delete them on command by pressing F6
+- Additionally delete them on command by pressing F8
 - Lightweight and performance-friendly
 
 ## Compatibility
@@ -25,9 +25,11 @@ To remain compatible:
 - Avoid mass-deleting scene objects without filtering types
 - Any large mods that affect scene loading should try to preserve late-stage hooks (e.g., camera movement or HUD loading) for the automatic trigger.
 
-## Timer-Based Trigger
+## Nerd Speak
 
-Because ASKA loads a full world and character model in the main menu, I could not find a clean way to detect when the player is actually in world. Thus, the "automatic" activation is a simple timer: after you click load game, it waits 10 seconds, then triggers the mod. This works out to be about one second after I load into the world in my game. On slower computers, the load screen *should* halt the process from finishing until the world loads, even if the timer runs out mid-load. If you have any problems, simply press F6 to trigger the mod manually.
+Because ASKA loads a full world and character model in the main menu, I could not find a clean way to detect when the player is actually in world. Thus, the "automatic" activation is a simple timer: after you click load game, it waits 12 seconds, then triggers the mod. This works out to be about one second after I load into the world in my game. On slower computers, the load screen *should* halt the process from finishing until the world loads, even if the timer runs out mid-load. If you have any problems, simply press F8 to trigger the mod manually.
+
+Additionally it has a script which runs once every 3 seconds to keep the respawning collision meshes from coming back. This script is so lightweight that when bound to a key I could not detect any stuttering even while mashing the key as fast as I could, so once every 3 seconds should be completely unnoticeable on performance.
 
 ## Planned Features
 
