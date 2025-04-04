@@ -1,4 +1,4 @@
-﻿using BepInEx;
+﻿﻿using BepInEx;
 using BepInEx.Logging;
 using BepInEx.Unity.IL2CPP;
 using Il2CppInterop.Runtime;
@@ -70,12 +70,12 @@ namespace maoBouldersBegone
 
             if (Input.GetKeyDown(KeyCode.F6))
             {
-                RunBoulderPurge();
+                //RunBoulderPurge();
             }
 
             if (Input.GetKeyDown(KeyCode.F7))
             {
-                RunColliderPurge();
+                //RunColliderPurge();
             }
 
             if (Input.GetKeyDown(KeyCode.F8))
@@ -94,33 +94,57 @@ namespace maoBouldersBegone
             foreach (var col in colliders)
             {
                 var obj = col.gameObject;
-                string name = obj.name.ToLowerInvariant();
+                var name = obj.name.ToLowerInvariant();
+                var rootName = obj.transform.root?.name.ToLowerInvariant() ?? name;
 
+                // Skip anything related to Jotun at any level
+                if (name.Contains("jotun") || rootName.Contains("jotun"))
+                {
+                    //Plugin.Log.LogInfo($"[BBG] Skipped Jotun collider: {obj.name} (root: {rootName})");
+                    continue;
+                }
+
+                // Skip any colliders attached to objects with a renderer (visible objects)
+                if (obj.GetComponent<Renderer>() != null || obj.GetComponentInChildren<Renderer>() != null)
+                    continue;
+
+                // Heuristic: if it's named like a rock but has no visuals, kill it
                 if (name.Contains("rock") || name.Contains("boulder") || name.Contains("static"))
                 {
-                    //Debug.Log($"[BouldersBegone] Removed collider: {obj.name}");
                     UnityEngine.Object.Destroy(obj);
                     count++;
+                    //Plugin.Log.LogInfo($"[BouldersBegone] Removed collider: {obj.name}");
                 }
             }
 
-            //lugin.Log.LogInfo($"[Boulders Begone] {count} standalone colliders destroyed.");
+            //Plugin.Log.LogInfo($"[Boulders Begone] {count} standalone colliders destroyed.");
         }
+
+
+
 
         private bool IsRealBoulder(string name)
         {
-            string lower = name.ToLowerInvariant();
-            if (lower.Contains("crockpot") || lower.Contains("campfire") || lower.Contains("crock"))
+            if (string.IsNullOrWhiteSpace(name))
                 return false;
 
-            return
-                lower.Contains("rock_") ||
+            string lower = name.ToLowerInvariant();
+
+            // Exclusions (make sure these never get deleted)
+            if (lower.Contains("jotun") || lower.Contains("crockpot") || lower.Contains("campfire") || lower.Contains("crock"))
+                return false;
+
+            // Inclusions (rocks we want to purge)
+            if (lower.StartsWith("rock_") ||
                 lower.Contains("rockforest") ||
                 lower.Contains("rockshoreline") ||
                 lower.Contains("rockhighlands") ||
                 lower.Contains("rock5") ||
                 lower.Contains("navcollider_rock") ||
-                lower.Contains("cave_rock");
+                lower.Contains("cave_rock"))
+                return true;
+
+            return false;
         }
 
         private void RunBoulderPurge()
@@ -132,6 +156,7 @@ namespace maoBouldersBegone
             {
                 if (IsRealBoulder(obj.name))
                 {
+                    Plugin.Log.LogInfo($"[Boulders Begone] Smiting to Oblivion: {obj.name}");
                     obj.transform.position += new UnityEngine.Vector3(0, -1000f, 0);
 
                     var renderers = obj.GetComponentsInChildren<UnityEngine.Renderer>(true);
