@@ -21,6 +21,13 @@ To remain compatible:
 - Avoid mass-deleting scene objects without filtering types
 - Any large mods that affect scene loading should try to preserve late-stage hooks (e.g., camera movement or HUD loading) for the automatic trigger.
 
+## Known Issues
+
+- Boulders will occasionally reappear again. Just press F8 when this happens for now, I'll see about detecting and negating this effect later.
+
+- TLDR: Boulders far away from where you load into the world will still be visible and you must press F8 to get rid of them.
+- This mod deletes the visuals of all spawned boulders **once** upon loading into the world, then deletes the collision boxes repeatedly every few seconds because they are streamed in dyanmically by the terrain handler (they kept respawning). What this means is that the collision box of a given boulder will always be deleted, but if the boulder was not close enough to your player character when you loaded the world, then it will remain visually. In other words, if you load at point A, then run way across the map to point Z, you will SEE a bunch of boulders, but they won't have collision boxes. Just press F8 to remove them visually at any time. This is not automatic because there is a noticeable hitch in the game when it happens, and I didn't want people blaming my mod for making their game "lag." 
+
 ## Timer-Based Trigger
 
 Because ASKA loads a full world and character model in the main menu, I could not find a clean way to detect when the player is actually in world. Thus, the "automatic" activation is a simple timer: after you click load game, it waits 10 seconds, then triggers the mod. This works out to be about one second after I load into the world in my game. On slower computers, the load screen *should* halt the process from finishing until the world loads, even if the timer runs out mid-load. If you have any problems, simply press F6 to trigger the mod manually.
@@ -55,4 +62,4 @@ Licensed under [Creative Commons Attribution 4.0 International](https://creative
 ---
 
 Have fun!
-— Maoman 
+â€” Maoman 
