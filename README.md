@@ -29,7 +29,7 @@ To remain compatible:
 
 ## Timer-Based Trigger
 
-Because ASKA loads a full world and character model in the main menu, I could not find a clean way to detect when the player is actually in world. Thus, the "automatic" activation is a simple timer: after you click load game, it waits 10 seconds, then triggers the mod. This works out to be about one second after I load into the world in my game. On slower computers, the load screen *should* halt the process from finishing until the world loads, even if the timer runs out mid-load. If you have any problems, simply press F6 to trigger the mod manually.
+Because ASKA loads a full world and character model in the main menu, I could not find a clean way to detect when the player is actually in world. Thus, the "automatic" activation is a simple timer: after you click load game, it waits 12 seconds, then triggers the mod. This works out to be about one second after I load into the world in my game. On slower computers, the load screen *should* halt the process from finishing until the world loads, even if the timer runs out mid-load. If you have any problems, simply press F6 to trigger the mod manually.
 
 ## Planned Features
 
