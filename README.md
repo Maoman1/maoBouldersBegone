@@ -10,14 +10,14 @@ This mod is in no way officially endorsed by the developers. You are downloading
 ## Features
 
 - Automatically deletes decorative boulders across the entire explored map upon loading into the world
-- Additionally delete them on command by pressing F6
+- Additionally delete them on command by pressing F8
 - Lightweight and performance-friendly
 
 ## Compatibility
 
 To remain compatible:
 - Avoid modifying the same GameObjects (e.g. "rock_shoreline_medium" and "VFX_VFXVegetation_Rock4_38+0")
-- Avoid repurposing the F6 key without coordination
+- Avoid repurposing the F8 key without coordination
 - Avoid mass-deleting scene objects without filtering types
 - Any large mods that affect scene loading should try to preserve late-stage hooks (e.g., camera movement or HUD loading) for the automatic trigger.
 
@@ -29,7 +29,7 @@ To remain compatible:
 
 ## Timer-Based Trigger
 
-Because ASKA loads a full world and character model in the main menu, I could not find a clean way to detect when the player is actually in world. Thus, the "automatic" activation is a simple timer: after you click load game, it waits 12 seconds, then triggers the mod. This works out to be about one second after I load into the world in my game. On slower computers, the load screen *should* halt the process from finishing until the world loads, even if the timer runs out mid-load. If you have any problems, simply press F6 to trigger the mod manually.
+Because ASKA loads a full world and character model in the main menu, I could not find a clean way to detect when the player is actually in world. Thus, the "automatic" activation is a simple timer: after you click load game, it waits 12 seconds, then triggers the mod. This works out to be about one second after I load into the world in my game. On slower computers, the load screen *should* halt the process from finishing until the world loads, even if the timer runs out mid-load. If you have any problems, simply press  to trigger the mod manually.
 
 ## Planned Features
 
